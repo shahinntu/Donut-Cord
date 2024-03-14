@@ -1,0 +1,32 @@
+{
+  "DATA": {
+    "DATASET_NAME": "naver-clova-ix/cord-v1",
+    "IMAGE_SIZE": [1280, 960],
+    "MAX_LENGTH": 768,
+    "IGNORE_ID": -100,
+    "DO_ALIGN_LONG_AXIS": false,
+    "TASK_START_TOKEN": "<s_cord-v2>",
+    "SORT_JSON_KEY": true
+  },
+  "MODEL": {
+    "BASE_MODEL_NAME": "naver-clova-ix/donut-base"
+  },
+  "ACCELERATOR": {
+    "MIXED_PRECISION": "bf16",
+    "GRADIENT_ACCUMULATION_STEPS": 2,
+    "MAX_GRAD_NORM": 1.0
+  },
+  "TRAINING": {
+    "EPOCHS": 30,
+    "BATCH_SIZE": { "TRAIN": 4, "TEST": 4 },
+    "ADAM_OPTIMIZER": {
+      "LEARNING_RATE": 3e-5,
+      "BETA1": 0.9,
+      "BETA2": 0.999,
+      "WEIGHT_DECAY": 0.0,
+      "EPSILON": 1e-8
+    },
+    "LR_SCHEDULER": { "TYPE": "cosine", "WARMUP_STEPS": 300 },
+    "TRACK_TRAIN_METRICS": false
+  }
+}
