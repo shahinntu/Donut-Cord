@@ -34,16 +34,10 @@ class Predictor:
         pixel_values = self._processor(images, return_tensors="pt").pixel_values
         pixel_values = pixel_values.to(self._device)
 
-        decoder_input_ids = torch.full(
-            (pixel_values.size(0), 1),
-            self._model.config.decoder_start_token_id,
-            device=self._device,
-        )
-
         outputs = self._model.generate(
             pixel_values,
-            decoder_input_ids=decoder_input_ids,
             max_length=self._config.DATA.MAX_LENGTH,
+            bos_token_id=self._model.config.decoder_start_token_id,
             pad_token_id=self._processor.tokenizer.pad_token_id,
             eos_token_id=self._processor.tokenizer.eos_token_id,
             use_cache=True,
@@ -53,11 +47,11 @@ class Predictor:
         )
 
         predictions = self._processor.tokenizer.batch_decode(
-            outputs.sequences, skip_special_tokens=False
+            outputs.sequences, skip_special_tokens=True
         )
 
         pred_jsons = [
             self._processor.token2json(prediction) for prediction in predictions
         ]
 
-        return predictions
+        return pred_jsons

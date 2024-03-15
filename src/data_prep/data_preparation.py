@@ -13,7 +13,6 @@ class DocDataset(Dataset):
         max_length,
         split="train",
         ignore_id=-100,
-        task_start_token="",
         sort_json_key=True,
     ):
         super().__init__()
@@ -21,7 +20,6 @@ class DocDataset(Dataset):
         self._max_length = max_length
         self._split = split
         self._ignore_id = ignore_id
-        self._task_start_token = task_start_token
         self._sort_json_key = sort_json_key
 
         self._hf_dataset = load_dataset(dataset_name_or_path, split=self._split)
@@ -59,9 +57,7 @@ class DocDataset(Dataset):
             for gt_json in gt_jsons
         ]
         prompts = [
-            self._task_start_token
-            + target_sequence
-            + self._processor.tokenizer.eos_token
+            target_sequence + self._processor.tokenizer.eos_token
             for target_sequence in examples["target_sequence"]
         ]
         tokenized_prompts = self._processor.tokenizer(

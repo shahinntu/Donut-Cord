@@ -102,7 +102,6 @@ class MLPipeline:
             self._config.DATA.MAX_LENGTH,
             split="train",
             ignore_id=self._config.DATA.IGNORE_ID,
-            task_start_token=self._config.DATA.TASK_START_TOKEN,
             sort_json_key=self._config.DATA.SORT_JSON_KEY,
         )
         train_dataloader = DataLoader(
@@ -117,7 +116,6 @@ class MLPipeline:
             self._config.DATA.MAX_LENGTH,
             split="validation",
             ignore_id=self._config.DATA.IGNORE_ID,
-            task_start_token=self._config.DATA.TASK_START_TOKEN,
             sort_json_key=self._config.DATA.SORT_JSON_KEY,
         )
         val_dataloader = DataLoader(
@@ -133,7 +131,6 @@ class MLPipeline:
             self._config.DATA.MAX_LENGTH,
             split="test",
             ignore_id=self._config.DATA.IGNORE_ID,
-            task_start_token=self._config.DATA.TASK_START_TOKEN,
             sort_json_key=self._config.DATA.SORT_JSON_KEY,
         )
         eval_dataloader = DataLoader(

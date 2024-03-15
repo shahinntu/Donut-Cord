@@ -207,20 +207,14 @@ class Trainer:
     def _predict(self, pixel_values):
         unwrapped_model = self.accelerator.unwrap_model(self._model)
 
-        decoder_input_ids = torch.full(
-            (pixel_values.size(0), 1),
-            unwrapped_model.config.decoder_start_token_id,
-            device=self.accelerator.device,
-        )
-
         outputs = unwrapped_model.generate(
             pixel_values,
-            decoder_input_ids=decoder_input_ids,
             max_length=self._config.DATA.MAX_LENGTH,
+            bos_token_id=unwrapped_model.config.decoder_start_token_id,
             pad_token_id=self._processor.tokenizer.pad_token_id,
             eos_token_id=self._processor.tokenizer.eos_token_id,
             use_cache=True,
-            num_beams=5,
+            num_beams=1,
             bad_words_ids=[[self._processor.tokenizer.unk_token_id]],
             return_dict_in_generate=True,
         )
