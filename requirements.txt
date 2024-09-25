@@ -7,3 +7,4 @@ numpy==1.26.4
 torch==2.2.1
 tqdm==4.66.1
 transformers==4.38.1
+tensorboard==2.17.1
